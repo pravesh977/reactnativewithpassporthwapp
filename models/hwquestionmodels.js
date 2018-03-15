@@ -1,23 +1,23 @@
 const db = require('../db/config');
 
-const Book = {};
+const HwQuestions = {};
 
-Book.findAll = () => {
-  return db.query('SELECT * FROM books ORDER BY id ASC');
+HwQuestions.findAll = () => {
+  return db.query('SELECT * FROM questionstable ORDER BY id ASC');
 };
 
-Book.findById = id => {
-  return db.oneOrNone('SELECT * FROM books WHERE id = $1', [id]);
+HwQuestions.findById = id => {
+  return db.oneOrNone('SELECT * FROM questionstable WHERE id = $1', [id]);
 };
 
-Book.create = book => {
+HwQuestions.create = question => {
   return db.one(
     `
-      INSERT INTO books
-      (content, author, user_id)
+      INSERT INTO questionstable
+      (homeworktitle, homeworkdetails, user_id)
       VALUES ($1, $2, $3) RETURNING *
     `,
-    [book.content, book.author, book.user_id]
+    [question.homeworktitle, question.homeworkdetails, question.user_id]
   );
 };
 
@@ -44,4 +44,4 @@ Book.create = book => {
 //   );
 // };
 
-module.exports = Book;
+module.exports = HwQuestions;

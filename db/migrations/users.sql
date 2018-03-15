@@ -1,4 +1,4 @@
-\connect rnativedb
+\connect rnhwdb
 
 CREATE TABLE IF NOT EXISTS users (
   id BIGSERIAL PRIMARY KEY,

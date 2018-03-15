@@ -200,8 +200,6 @@ export default class App extends React.Component {
     <RootStack 
       screenProps = {{
         hello: "this is a screen prop",
-        // loginusername: this.state.loginusername,
-        // loginpassword: this.state.loginpassword,
         isloggedin: this.state.isloggedin,
         loggedinuser: this.state.loggedinuser,
         onLoginSubmit: this.onLoginSubmit,

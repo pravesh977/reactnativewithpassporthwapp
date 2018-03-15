@@ -4,7 +4,7 @@ let db;
 
 if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
     db = pgp({
-        database: 'rnativedb',
+        database: 'rnhwdb',
         port: 5432,
         host: 'localhost',
     })
