@@ -9,6 +9,7 @@ import MainWelcome from './components/MainWelcome';
 import RegisterComponent from './components/RegisterComponent';
 import UserScreen from './components/UserScreen';
 import AskFormComponent from './components/AskFormComponent';
+import SingleComponent from './components/SingleComponent';
 
 
 // Cant seem to import this LoginScreen component like MainWelcome and RegisterComponent Or I get error.
@@ -48,6 +49,7 @@ const RootStack = StackNavigator(
     Welcome: { screen: MainWelcome },
     UserPage: { screen: UserScreen },
     AskComp: { screen: AskFormComponent },
+    SinglePage: { screen: SingleComponent },
   },
   {
     initialRouteName: 'Welcome',

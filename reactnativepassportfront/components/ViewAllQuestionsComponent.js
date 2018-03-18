@@ -37,9 +37,11 @@ conditionalAllQuestionsLoaded() {
               underlayColor = "green"
               onPress={()=> {
                 Alert.alert("hello");
-                this.props.navigation.navigate('AskComp');
-
-
+                this.props.navigation.navigate('SinglePage', {
+                  itemId: item.id,
+                  itemHomeWorkTitle: item.homeworktitle,
+                  itemDetails: item.homeworkdetails,
+                });
               }}>
                 <View>
                  <Text style={{fontSize: 24, fontWeight: 'bold'}}>{item.homeworktitle}</Text>
