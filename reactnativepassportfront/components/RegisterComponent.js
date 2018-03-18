@@ -23,12 +23,14 @@ class RegisterComponent extends React.Component {
                     placeholder="Username"
                     placeholderTextColor = 'black'
                     onChangeText={(registerusername) => this.props.screenProps.onChangeRegisterUsername(registerusername)}
+                    underlineColorAndroid = "transparent"
                 />
           <TextInput
                     style={{height: 40, fontWeight: 'bold', textAlign: 'center', fontSize: 26, color: '#4540E8'}}
                     placeholder="Password"
                     placeholderTextColor = 'black'
                     onChangeText={(registerpassword) => this.props.screenProps.onChangeRegisterPassWord(registerpassword)}
+                    underlineColorAndroid = "transparent"
                 />
             <Text>{this.props.hello}</Text>
             {/* {console.log(this.props.screenProps.registerusername)} */}

@@ -6,6 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const authroutes = require('./routes/authroutes');
 const userRoutes = require('./routes/userRoutes');
+const hwquestionsroute = require('./routes/hwquestionsroute');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
@@ -34,6 +35,7 @@ app.get('/', (req, res) => {
 
 app.use('/authroutes', authroutes);
 app.use('/user', userRoutes);
+app.use('/api/homeworkquestions', hwquestionsroute);
 
 app.get('*', (req, res) => {
     res.status(404).send({message: 'Oops! Not found boiiiii.'});

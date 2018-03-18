@@ -8,27 +8,8 @@ import UserComponent from './components/UserComponent';
 import MainWelcome from './components/MainWelcome';
 import RegisterComponent from './components/RegisterComponent';
 import UserScreen from './components/UserScreen';
+import AskFormComponent from './components/AskFormComponent';
 
-
-// import LoginComponent from './components/LoginComponent';
-
-// class MainWelcome extends React.Component {
-//   render() {
-//     return (
-//       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//         <Text>Welcome Page</Text>
-//         <Button
-//           title="Login"
-//           onPress={() => this.props.navigation.navigate('Login')}
-//         />
-//         <Button
-//           title="Register"
-//           onPress={() => this.props.navigation.navigate('Register')}
-//         />
-//       </View>
-//     );
-//   }
-// }
 
 // Cant seem to import this LoginScreen component like MainWelcome and RegisterComponent Or I get error.
 class LoginScreen extends React.Component {
@@ -50,31 +31,6 @@ class LoginScreen extends React.Component {
   }
 }
 
-// class RegisterScreen extends React.Component {
-//   render() {
-//     return (
-//       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//         <Text>Register Screen</Text>
-//         {/* <Button
-//           title="Register"
-//           onPress={() => this.props.navigation.navigate('UserPage')}
-//         /> */}
-//       </View>
-//     );
-//   }
-// }
-
-// class UserScreen extends React.Component {
-//   render() {
-//     return (
-//       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//         <Text>Details Screen</Text>
-//         <UserComponent />
-//       </View>
-//     );
-//   }
-// }
-
 // const MyUserStackNav = StackNavigator(
 //   {
 //     UserPage: {
@@ -90,7 +46,8 @@ const RootStack = StackNavigator(
     Login: { screen: LoginScreen },
     // UserStuff: { screen: MyUserStackNav },
     Welcome: { screen: MainWelcome },
-    UserPage: { screen: UserScreen }
+    UserPage: { screen: UserScreen },
+    AskComp: { screen: AskFormComponent },
   },
   {
     initialRouteName: 'Welcome',
@@ -107,7 +64,10 @@ export default class App extends React.Component {
                 registerpassword: '',
                 isloggedin: false,
                 loggedinuser: null,
+                loggedinuserid: null,
                 randomState: null,
+                questiontitle: '',
+                questiondetails: '',
         }
     this.onRegisterSubmit = this.onRegisterSubmit.bind(this);
     this.onLoginSubmit = this.onLoginSubmit.bind(this);
@@ -116,7 +76,9 @@ export default class App extends React.Component {
     this.onChangeRegisterPassWord = this.onChangeRegisterPassWord.bind(this);
     this.onChangeLoginUsername = this.onChangeLoginUsername.bind(this);
     this.onChangeLoginPassword = this.onChangeLoginPassword.bind(this);
-
+    this.onChangequestiontitle = this.onChangequestiontitle.bind(this);
+    this.onChangequestiondetails = this.onChangequestiondetails.bind(this);
+    this.onQuestionSubmit = this.onQuestionSubmit.bind(this);
     // this.conditionalrenderloggedin = this.conditionalrenderloggedin.bind(this);      
   }
 
@@ -124,6 +86,19 @@ export default class App extends React.Component {
     this.setState ({
       randomState: cool,
     })
+  }
+  onChangequestiontitle(questiont) {
+    this.setState({
+      questiontitle: questiont,
+    })
+    // console.log(this.state.registerusername, "username stae")
+  }
+
+  onChangequestiondetails(questionDetails) {
+    this.setState({
+      questiondetails: questionDetails,
+    })
+    // console.log(this.state.registerusername, "username stae")
   }
 
   onChangeRegisterUsername(registerUserName) {
@@ -143,14 +118,14 @@ export default class App extends React.Component {
     this.setState({
       loginusername: loginUserName,
     })
-    console.log(this.state.loginusername, "username stae")
+    // console.log(this.state.loginusername, "username stae")
   }
 
   onChangeLoginPassword(loginPassWord) {
     this.setState({
       loginpassword: loginPassWord,
     })
-    console.log(this.state.loginpassword, "user pass")
+    // console.log(this.state.loginpassword, "user pass")
   }
 
   onRegisterSubmit() {
@@ -168,8 +143,8 @@ export default class App extends React.Component {
       console.log(responseJson, "userdatra");
       this.setState({loggedinuser: responseJson.userInfo.username})
     })
-    console.log("registered username", this.state.registerusername);
-    console.log("registered password", this.state.registerpassword);
+    // console.log("registered username", this.state.registerusername);
+    // console.log("registered password", this.state.registerpassword);
     // console.log(this.state.randomState, "random state")
   }
 
@@ -184,16 +159,44 @@ export default class App extends React.Component {
       }),
     }).then((response)=>{
       return response.json()
-    }).then((responseJson)=>{
-      console.log(responseJson, "userdatra");
-      this.setState({loggedinuser: responseJson.userInfo.username})
+      }).then((responseJson) => {
+        if(responseJson.userInfo.id !== undefined) {
+          console.log(responseJson, "userdatra");
+          // console.log("welcome, ", responseJson.userInfo.id);
+          this.setState({
+            loggedinuser: responseJson.userInfo.username,
+            loggedinuserid: responseJson.userInfo.id,
+          });
+        } else {
+          console.log("who are you?");
+        }
+      
+      
     })
-    // console.log("hello ashoer");
-    console.log("username", this.state.loginusername);
-    console.log("password", this.state.loginpassword);
-    // console.log(c, "slkdjf");
+    // console.log("username", this.state.loginusername);
+    // console.log("password", this.state.loginpassword);
     // console.log(this.state.randomState, "random state")
   }
+
+  onQuestionSubmit() {
+    fetch('http://192.168.1.241:3001/api/homeworkquestions', {
+      credentials: 'same-origin',
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        homeworktitle: this.state.questiontitle,
+        homeworkdetails: this.state.questiondetails,
+        user_id: this.state.loggedinuserid,
+      }),
+    }).then((response)=>{
+      return response.json()
+    }).then((responseJson)=>{
+      console.log(responseJson, "postedquestion ");
+      // if (responseJson.addedQuestion.id !== undefined) {
+      // }
+    })
+  }
+
 
   render() {
     return (
@@ -211,6 +214,11 @@ export default class App extends React.Component {
         onRegisterSubmit: this.onRegisterSubmit,
         loginusername: this.loginusername,
         registerusername: this.state.registerusername,
+        questiontitle: this.state.questiontitle,
+        onChangequestiontitle: this.onChangequestiontitle,
+        questiondetails: this.state.questiondetails,
+        onChangequestiondetails: this.onChangequestiondetails,
+        onQuestionSubmit: this.onQuestionSubmit,
       }}
     />
     );

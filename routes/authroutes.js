@@ -5,7 +5,6 @@ const usercontroller = require('../controllers/usercontroller');
 const authHelpers = require('../authservices/authHelpers');
 const passport = require('../authservices/local');
 
-
 myauthroute.post('/register', usercontroller.create);
 
 myauthroute.post(

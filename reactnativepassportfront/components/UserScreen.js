@@ -36,6 +36,7 @@ import { Text, View } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 import ViewAllQuestionsComponent from './ViewAllQuestionsComponent';
 import MyQuestionsComponent from './MyQuestionsComponent';
+import ProfileComponent from './ProfileComponent';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
@@ -57,6 +58,19 @@ export default UserScreen = TabNavigator({
       screen: MyQuestionsComponent,
       navigationOptions: {
         tabBarLabel: 'My Questions',
+        tabBarIcon: ({ tintColor, focused } )=>(
+          <Ionicons
+          name={focused ? 'ios-home' : 'ios-home-outline'}
+          size={26}
+          style={{ color: tintColor }}
+        />
+        ),
+      }, 
+     },
+  ProfileScreen: { 
+      screen: ProfileComponent,
+      navigationOptions: {
+        tabBarLabel: 'Profile',
         tabBarIcon: ({ tintColor, focused } )=>(
           <Ionicons
           name={focused ? 'ios-home' : 'ios-home-outline'}
