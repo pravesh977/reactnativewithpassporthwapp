@@ -7,6 +7,7 @@ class MyQuestionsComponent extends React.Component {
         return (
           <View style={myquestions.container}>
             <Text>List of My asked questions</Text>
+            <Text>Hey {this.props.screenProps.loggedinuser}</Text>
             <Icon name="thumbs-o-up">
             </Icon>
             <Text>HEYEYEYE</Text>

@@ -9,6 +9,7 @@ class ViewAllQuestionsComponent extends React.Component {
       allQuestionsData: [],
     }
     this.conditionalAllQuestionsLoaded = this.conditionalAllQuestionsLoaded.bind(this);
+    this.checkloginuserandposteduser = this.checkloginuserandposteduser.bind(this);
   }
 
   componentDidMount() {
@@ -24,8 +25,19 @@ class ViewAllQuestionsComponent extends React.Component {
     })
   }
 
+checkloginuserandposteduser(sentusername) {
+  if (sentusername === this.props.screenProps.loggedinuser) {
+    return (
+      <View>
+      <Text>MATCH FOUND EDIT THIS</Text>
+      <Text>MATCH FOUND DELETE THIS</Text>
+      </View>
+    )
+  }
+}
+
 conditionalAllQuestionsLoaded() {
-  if(this.state.allQuestionsLoaded === true) {
+  if(this.state.allQuestionsLoaded === true && this.props.screenProps.loggedinuser !== null) {
     return (
       <View>
         <FlatList
@@ -36,16 +48,20 @@ conditionalAllQuestionsLoaded() {
               <TouchableHighlight 
               underlayColor = "green"
               onPress={()=> {
-                Alert.alert("hello");
+                // Alert.alert("hello");
                 this.props.navigation.navigate('SinglePage', {
                   itemId: item.id,
                   itemHomeWorkTitle: item.homeworktitle,
                   itemDetails: item.homeworkdetails,
+                  itemUserName: item.username,
+                  itemUserId: item.user_id,
                 });
               }}>
                 <View>
                  <Text style={{fontSize: 24, fontWeight: 'bold'}}>{item.homeworktitle}</Text>
                  <Text style={{fontSize: 24}}>{item.homeworkdetails}</Text>
+                 <Text style={{color: 'red'}}>Hey {this.props.screenProps.loggedinuser}</Text>
+                 {this.checkloginuserandposteduser(item.username)}
                 </View>
               </TouchableHighlight>
             </View>
@@ -55,6 +71,9 @@ conditionalAllQuestionsLoaded() {
       </View>
     )
   }
+  else return (
+    <Text>Loading</Text>
+  )
 }
 
 render() {
@@ -62,6 +81,7 @@ render() {
     // <ScrollView>
     <View style={viewquestions.container}>
       <Text style={{color: 'white'}}>View all latest questions</Text>
+      {/* <Text style={{color: 'red'}}>Hey {this.props.screenProps.loggedinuser}</Text> */}
       {this.conditionalAllQuestionsLoaded()}
     </View>
     // </ScrollView>

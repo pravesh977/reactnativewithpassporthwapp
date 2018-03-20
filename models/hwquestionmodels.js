@@ -3,7 +3,8 @@ const db = require('../db/config');
 const HwQuestions = {};
 
 HwQuestions.findAll = () => {
-  return db.query('SELECT * FROM questionstable ORDER BY id ASC');
+  // return db.query('SELECT * FROM questionstable ORDER BY id ASC');
+  return db.query('SELECT questionstable.id, homeworktitle, homeworkdetails, user_id, username FROM questionstable INNER JOIN users ON questionstable.user_id = users.id ORDER BY questionstable.id DESC');
 };
 
 HwQuestions.findById = id => {
